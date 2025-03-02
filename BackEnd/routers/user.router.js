@@ -1,3 +1,18 @@
-const espress = require('express')
+const express = require('express')
+const {body,validatorResult} = require('express-validator')
+const userController = require('../controllers/user.controller')
+ 
 
-const Router = espress.Router();
+const Router = express.Router();
+
+Router.post('/register',
+    [
+        body('email').isEmail().withMessage('Invalid email format '),
+        body('fullName.firstName').isLength({min:3}).withMessage("The first name must be minimum 3"),
+        body('password').isLength({min:6}).withMessage("The password must contains one alphabet and a single digit")
+    ],
+    userController.userRegister
+
+)
+
+module.exports = Router

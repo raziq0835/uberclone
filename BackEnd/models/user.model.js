@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
@@ -13,9 +14,9 @@ const userSchema = new mongoose.Schema({
         type:String,
         min:[3,'The min length for last name should be 3']
     }
-    },
+    }, 
     email:{
-        type:email,
+        type:String,
         require:true
     },
     password:{
@@ -28,8 +29,8 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.methods.generateAuthToken = async function() {
-    const jsonToken = await jwt.sign({_id:this._id},process.env.ACCESS_SECRRET_KEY)
+userSchema.methods.generateAuthToken = function(password) {
+    const jsonToken =  jwt.sign({_id:this._id},process.env.ACCESS_SECRET_KEY)
     return jsonToken;
 
 } 
