@@ -23,3 +23,31 @@ exports.userRegister = async function (req, res, nest) {
   const token = user.generateAuthToken();
   res.status(201).json({ token, user });
 };
+
+
+exports.userLogin = async function(req,res,next) {
+    const error = validationResult(req);
+
+    if(!errors.isEmpty()){
+        res.status(401).json({error:error.array()})
+    }
+
+    const {email , password} = req.body;
+
+    const user = userModel.findOne({email}).select('+passowrd')
+
+    if(!user){
+        res.status(401).json({message:"Invalid user or password"})
+    }
+
+    const match = user.passwordCompare(password)
+
+    if(!match){
+        res.status(401).json({message:"Invalid user or password"})
+    }
+
+    const token = user.generateAuthToken();
+
+    res.status(400).json({user,token})
+
+}
