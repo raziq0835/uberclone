@@ -24,41 +24,33 @@ exports.userRegister = async function (req, res, nest) {
   res.status(201).json({ token, user });
 };
 
+exports.userLogin = async function (req, res, next) {
+  const error = validationResult(req);
 
-exports.userLogin = async function(req,res,next) {
-    const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(401).json({ error: error.array() });
+  }
 
-    if(!error.isEmpty()){
-        return res.status(401).json({error:error.array()})
-    }
+  const { email, password } = req.body;
+  console.log(email);
+  console.log(password);
 
-    const {email , password} = req.body;
-    console.log(email)
-    console.log(password)
-    
-    const user = await userModel.findOne({email}).select('+password')
-    
-    
-    
+  const user = await userModel.findOne({ email }).select("+password");
 
-    if(!user){
-        return res.status(401).json({message:"Invalid"})
-    }
-    console.log(user)
-    console.log(user.password)
-    
-    
-    const match = await user.passwordCompare(password)
-    console.log(match)
-    if(!match){
-        return res.status(401).json({message:"Invalid password"})
-    }
-    console.log(match)
-    
+  if (!user) {
+    return res.status(401).json({ message: "Invalid" });
+  }
+  console.log(user);
+  console.log(user.password);
 
-    const token = user.generateAuthToken();
-    
+  const match = await user.passwordCompare(password);
+  console.log(match);
+  if (!match) {
+    return res.status(401).json({ message: "Invalid password" });
+  }
+  console.log(match);
 
-    return res.status(200).json({user,token})
+  const token = user.generateAuthToken();
 
-}
+  return res.status(200).json({ user, token });
+};

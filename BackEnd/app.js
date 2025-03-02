@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   console.log(`hello Uber ${req.method}`);
-  res.send("Hello Uber");
+  res.json({"message":"Hello Uber"});
 });
 
 app.use("/users", userRouter);
