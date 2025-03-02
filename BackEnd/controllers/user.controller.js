@@ -28,26 +28,37 @@ exports.userRegister = async function (req, res, nest) {
 exports.userLogin = async function(req,res,next) {
     const error = validationResult(req);
 
-    if(!errors.isEmpty()){
-        res.status(401).json({error:error.array()})
+    if(!error.isEmpty()){
+        return res.status(401).json({error:error.array()})
     }
 
     const {email , password} = req.body;
-
-    const user = userModel.findOne({email}).select('+passowrd')
+    console.log(email)
+    console.log(password)
+    
+    const user = await userModel.findOne({email}).select('+password')
+    
+    
+    
 
     if(!user){
-        res.status(401).json({message:"Invalid user or password"})
+        return res.status(401).json({message:"Invalid"})
     }
-
-    const match = user.passwordCompare(password)
-
+    console.log(user)
+    console.log(user.password)
+    
+    
+    const match = await user.passwordCompare(password)
+    console.log(match)
     if(!match){
-        res.status(401).json({message:"Invalid user or password"})
+        return res.status(401).json({message:"Invalid password"})
     }
+    console.log(match)
+    
 
     const token = user.generateAuthToken();
+    
 
-    res.status(400).json({user,token})
+    return res.status(200).json({user,token})
 
 }
