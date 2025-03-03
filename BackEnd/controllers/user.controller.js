@@ -52,5 +52,11 @@ exports.userLogin = async function (req, res, next) {
 
   const token = user.generateAuthToken();
 
+  res.cookie('token',token)
+
   return res.status(200).json({ user, token });
 };
+
+exports.getProfile = function(req,res,next) {
+    res.status(200).json(req.user);
+}
