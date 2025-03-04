@@ -35,5 +35,5 @@ Router.get('/profile',authMiddleware.isUserLoged,userController.getProfile
 
 )
 
-Router.put('/logout')
+Router.put('/logout', userController.userLogout)
 module.exports = Router;
