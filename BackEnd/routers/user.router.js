@@ -34,4 +34,6 @@ Router.post(
 Router.get('/profile',authMiddleware.isUserLoged,userController.getProfile
 
 )
+
+Router.put('/logout')
 module.exports = Router;
