@@ -2,18 +2,26 @@ require("dotenv").config();
 const userModel = require("../models/user.model");
 const userServices = require("../services/user.services");
 const { validationResult } = require("express-validator");
+const unauthTokenModel = require("../models/unauthtoken.model");
 
 exports.userRegister = async function (req, res, nest) {
   const errors = validationResult(req);
   if (!errors.isEmpty) {
     res.status(401).json({ errors: errors.array() });
   }
-
+  
   const { fullName, email, password } = req.body;
+  var user = await
+  userModel.findOne({
+    email,
+  });
 
+  if (user) {
+    return res.status(401).json({ message: "Email already exists" });
+  }
   const hashPassword = await userModel.hashPassword(password);
 
-  const user = await userServices.createUser(
+  var user = await userServices.createUser(
     fullName.firstName,
     fullName.lastName,
     email,
@@ -59,4 +67,13 @@ exports.userLogin = async function (req, res, next) {
 
 exports.getProfile = function(req,res,next) {
     res.status(200).json(req.user);
+}
+
+
+exports.userLogout = function(req,res,next) {
+    res.clearCookie('token')
+    const token = req.cookies.token || (req.header('Authorization') ? req.header('Authorization').split(' ')[1] : null);
+    const unauthtoken = unauthTokenModel.addToUnauthList(token)
+
+    res.status(200).json({message:"Logout"})
 }
