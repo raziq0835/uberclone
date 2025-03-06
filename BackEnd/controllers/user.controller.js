@@ -9,10 +9,9 @@ exports.userRegister = async function (req, res, nest) {
   if (!errors.isEmpty) {
     res.status(401).json({ errors: errors.array() });
   }
-  
+
   const { fullName, email, password } = req.body;
-  var user = await
-  userModel.findOne({
+  var user = await userModel.findOne({
     email,
   });
 
@@ -60,20 +59,23 @@ exports.userLogin = async function (req, res, next) {
 
   const token = user.generateAuthToken();
 
-  res.cookie('token',token)
+  res.cookie("token", token);
 
   return res.status(200).json({ user, token });
 };
 
-exports.getProfile = function(req,res,next) {
-    res.status(200).json(req.user);
-}
+exports.getProfile = function (req, res, next) {
+  res.status(200).json(req.user);
+};
 
+exports.userLogout = function (req, res, next) {
+  res.clearCookie("token");
+  const token =
+    req.cookies.token ||
+    (req.header("Authorization")
+      ? req.header("Authorization").split(" ")[1]
+      : null);
+  const unauthtoken = unauthTokenModel.addToUnauthList(token);
 
-exports.userLogout = function(req,res,next) {
-    res.clearCookie('token')
-    const token = req.cookies.token || (req.header('Authorization') ? req.header('Authorization').split(' ')[1] : null);
-    const unauthtoken = unauthTokenModel.addToUnauthList(token)
-
-    res.status(200).json({message:"Logout"})
-}
+  res.status(200).json({ message: "Logout" });
+};
