@@ -38,12 +38,12 @@ const captanSchema = new mongoose.Schema({
             require:true,
         },
         seat : {
-            type:String,
+            type:Number,
             require:true,
             min:[1,"The number of avaible seat should be atleast 1"]
         },
         type:{
-            type:Nunber,
+            type:String,
             require:true,
             enum:['car','bike','auto']
         },
@@ -67,7 +67,7 @@ captanSchema.methods.comparePassword = async function(password) {
 }
 
 captanSchema.statics.hashPassword = async function(password){
-    return await bycrypt.hashPassword(password,ACCESS_SECRET_KEY)
+    return await bcrypt.hashPassword(password,ACCESS_SECRET_KEY)
 }
 
 
