@@ -3,9 +3,9 @@ const { body, validatorResult } = require("express-validator");
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/user.middleware");
 
-const Router = express.Router();
+const userRouter = express.Router();
 
-Router.post(
+userRouter.post(
   "/register",
   [
     body("email").isEmail().withMessage("Invalid email format "),
@@ -18,10 +18,16 @@ Router.post(
         "The password must contains one alphabet and a single digit"
       ),
   ],
+
+  // console.log(typeof userController.userRegister),
+  // console.log(userController
+  //   .userRegister),
+
+
   userController.userRegister
 );
 
-Router.post(
+userRouter.post(
   "/login",
   [
     body("email").isEmail().withMessage("Invalid Email"),
@@ -31,8 +37,8 @@ Router.post(
   userController.userLogin
 );
 
-Router.get("/profile", authMiddleware.isUserLoged, userController.getProfile);
+userRouter.get("/profile", authMiddleware.isUserLoged, userController.getProfile);
 
-Router.post("/logout", authMiddleware.isUserLoged, userController.userLogout);
+userRouter.post("/logout", authMiddleware.isUserLoged, userController.userLogout);
 
-module.exports = Router;
+module.exports = userRouter;

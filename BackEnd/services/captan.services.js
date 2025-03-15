@@ -1,7 +1,7 @@
 const captanModel = require('../models/captan.model')
 
 
-exxports.createCaptan = async function(firstName,lastName,seat,color,type,plate,status,email,password){
+exports.createCaptan = async function(firstName,lastName,seat,color,type,plate,status,email,password){
     const captan = await captanModel.create({
         fullName:{
             firstName:firstName,

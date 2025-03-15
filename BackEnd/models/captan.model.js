@@ -57,7 +57,7 @@ const captanSchema = new mongoose.Schema({
 })
 
 captanSchema.methods.genAuthToken = function(){
-    const token = jwt.sign({_id:this._id},ACCESS_SECRET_KEY,{expiresIn:'1H'})
+    const token = jwt.sign({_id:this._id},process.env.ACCESS_SECRET_KEY,{expiresIn:'1H'})
     return token ;
 
 }
@@ -67,7 +67,7 @@ captanSchema.methods.comparePassword = async function(password) {
 }
 
 captanSchema.statics.hashPassword = async function(password){
-    return await bcrypt.hashPassword(password,ACCESS_SECRET_KEY)
+    return await bcrypt.hash(password,10)
 }
 
 
