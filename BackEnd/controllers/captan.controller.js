@@ -1,6 +1,7 @@
 const captanModel = require('../models/captan.model')
 const {validationResult} = require('express-validator')
 const captanServices = require('../services/captan.services')
+const unauthTokenModel = require('../models/unauthtoken.model')
 
 
 exports.captanRegister = async function(req,res,next){
@@ -66,3 +67,15 @@ exports.captanLogin  = async function(req,res,next){
 exports.getProfile = function(req,res,next){
     res.status(200).json(req.captan);
 }
+
+exports.captanLogout = function (req, res, next) {
+  res.clearCookie("token");
+  const token =
+    req.cookies.token ||
+    (req.header("Authorization")
+      ? req.header("Authorization").split(" ")[1]
+      : null);
+  const unauthtoken = unauthTokenModel.addToUnauthList(token);
+
+  res.status(200).json({ message: "Logout" });
+};

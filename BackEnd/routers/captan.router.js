@@ -35,5 +35,7 @@ captanController.captanLogin
 
 captanRouter.get('/profile',captanMiddleware.isCaptanLoged,captanController.getProfile)
 
+captanRouter.post('/logout',captanMiddleware.isCaptanLoged,captanController.captanLogout)
+
 module.exports = captanRouter;
 

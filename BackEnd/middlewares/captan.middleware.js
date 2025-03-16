@@ -1,10 +1,16 @@
 const captanModel = require("../models/captan.model");
 const jwt = require("jsonwebtoken");
+const unauthTokenModel = require("../models/unauthtoken.model");
 
 exports.isCaptanLoged = async (req,res,next) =>{
-    token = req.cookies.token || req.header('Authorization')?req.header('Authorization').split(' ')[1]:null;
+    token = req.cookies.token || (req.header('Authorization')?req.header('Authorization').split(' ')[1]:null);
 
     if(!token){
+        return res.status(400).json({message:"UnAuthorized"})
+    }
+
+    const unauthtoken = await unauthTokenModel.findOne({token});
+    if(unauthtoken){
         return res.status(400).json({message:"UnAuthorized"})
     }
 
