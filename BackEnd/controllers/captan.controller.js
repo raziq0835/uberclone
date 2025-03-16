@@ -42,9 +42,12 @@ exports.captanLogin  = async function(req,res,next){
   }
 
   const { email, password } = req.body;
+  console.log(email);  
+  console.log(password);
   var captan = await captanModel.findOne({
     email
-  });
+  }).select("+password");
+  
 
   if (!captan) {
     return res.status(401).json({ message: "Invalid email" });
@@ -56,6 +59,7 @@ exports.captanLogin  = async function(req,res,next){
   }
 
   const token = captan.genAuthToken();
+  res.cookie("token", token, { httpOnly: true });
   res.status(200).json({ token, captan });
 }
 

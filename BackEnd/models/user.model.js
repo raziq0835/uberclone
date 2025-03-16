@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     require: true,
+    select: false,  
   },
   socketId: {
     type: String,
@@ -37,6 +38,7 @@ userSchema.methods.generateAuthToken = function (password) {
 };
 
 userSchema.methods.passwordCompare = async function (password) {
+  console.log(password);
   return await bcrypt.compare(password, this.password);
 };
 

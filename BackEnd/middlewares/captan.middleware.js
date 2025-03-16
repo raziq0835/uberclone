@@ -1,6 +1,7 @@
 const captanModel = require("../models/captan.model");
+const jwt = require("jsonwebtoken");
 
-exports.isCaptanLoged = async (req,res,nest) =>{
+exports.isCaptanLoged = async (req,res,next) =>{
     token = req.cookies.token || req.header('Authorization')?req.header('Authorization').split(' ')[1]:null;
 
     if(!token){
@@ -12,7 +13,7 @@ exports.isCaptanLoged = async (req,res,nest) =>{
     if(!captan){
         return res.status(400).json({message:"UnAuthorized"})
     }
-    req.captan = captan;
+    req.captan = captan; 
     next();
 }
-
+  

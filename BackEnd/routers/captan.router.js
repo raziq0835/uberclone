@@ -28,7 +28,7 @@ captanController.captanRegister
 captanRouter.post('/login',
 [
   body("email").isEmail().withMessage("Invalid Email"),
-  body("password").isLength().withMessage("Invalid password"),
+  body("password").isLength({min:3}).withMessage("Invalid password"),
 ],
 captanController.captanLogin
 )

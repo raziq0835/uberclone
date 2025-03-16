@@ -22,7 +22,8 @@ const captanSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        require:true
+        require:true,
+        select:false
     },
     socketId:{
         type:String,
@@ -63,11 +64,12 @@ captanSchema.methods.genAuthToken = function(){
 }
 
 captanSchema.methods.comparePassword = async function(password) {
-    return await bcrypt.compare(password,this.password)
+    console.log(this.password)
+    return  await bcrypt.compare(password, this.password )
 }
 
 captanSchema.statics.hashPassword = async function(password){
-    return await bcrypt.hash(password,10)
+    return await bcrypt.hash(password,10) 
 }
 
 

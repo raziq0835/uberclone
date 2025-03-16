@@ -22,8 +22,8 @@ module.exports = connectToDb;
 //       "lastName":"B"
 //   },
 //   "vehicle":{
-//       "color":"red",
-//       "seat":6,
+//       "color":"red",   
+//       "seat":6,    
 //       "type":"car",
 //       "plate":254
 
