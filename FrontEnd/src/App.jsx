@@ -8,7 +8,7 @@ import UserSignin from './pages/UserSignin'
 
 const App = () => {
   return (
-    <div className='container mx-auto bg-red-200'>
+    <div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/captanlogin" element={<CaptanLogin />} />
