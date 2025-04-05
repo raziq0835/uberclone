@@ -6,6 +6,6 @@ const CaptanSignin = () => {
       <p>CaptanSignin</p>
     </div>
   )
-}
+}  
 
 export default CaptanSignin
