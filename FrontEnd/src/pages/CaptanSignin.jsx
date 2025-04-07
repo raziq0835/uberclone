@@ -44,5 +44,5 @@ const CaptanSignin = () => {
   </div>
   )
 }  
-
+    
 export default CaptanSignin
