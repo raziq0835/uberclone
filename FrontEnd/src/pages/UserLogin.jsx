@@ -48,9 +48,9 @@ const UserLogin = () => {
         <button className="py-1 mt-2 w-full bg-black  rounded-md text-xl text-white" type="submit"
         onClick={(e) => handelSubmit(e)}
         >Login</button>
-        <p className='text-center mt-3'>Don't have an account? <a href="/usersignin" className='text-blue-600'>Register</a></p>
+        <p className='text-center mt-3'>Don't have an account? <Link to="/usersignin" className='text-blue-600'>Register</Link></p>
         <p className='text-center mt-3'>Forget Password? <Link  to="/ForgetPassword" className='text-blue-600'>Reset</Link></p>
-        <p className='text-center mt-3'>Are you a Captan? <Link to="/captanlogin" className='text-blue-600'>Reset</Link></p>
+        <p className='text-center mt-3'>Are you a Captan? <Link to="/captanlogin" className='text-blue-600'>Captan Login</Link></p>
 
       </form>
     </div>

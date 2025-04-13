@@ -1,19 +1,36 @@
 import React from 'react'
 
 const CaptanSignin = () => {
-  const [captanRegister, setCaptanRegister] = React.useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+  
+  
+  
+  const [formData , setFormData] = React.useState({
+    fullName:{
+      firstName : '',
+      lastName : ''
+    },
+    email:'',
+    password: '',
+    vehicle:{
+      type:'',
+      color:'',
+      seat:'',
+      plate:''
+    }
+  }) 
 
   const handleChange = (e) => { 
-    setCaptanRegister({
-      ...captanRegister,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value
     });
+    console.log(fullName.firstName)
+    console.log(e.target.name)
   }
 
+  const handleSubmit =() => {
+
+  }
 
   return (
     <div className='text-gray-500 bg-cover bg-center bg-[url(https://images.unsplash.com/photo-1687247361949-ac0ffc268b99?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen w-full flex flex-col'>
@@ -23,10 +40,10 @@ const CaptanSignin = () => {
       <h2 className='text-3xl font-bold mb-5'>Captain Register</h2>
 
       <label className="text-xl" htmlFor="firstName">First Name:</label><br />
-      <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="firstName" value={formData.fullName.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
       <label className="text-xl" htmlFor="lastName">Last Name:</label><br />
-      <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="lastName" value={formData.fullName.lastName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
       <label className="text-xl" htmlFor="email">Email:</label><br />
       <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
@@ -34,8 +51,18 @@ const CaptanSignin = () => {
       <label className="text-xl" htmlFor="password">Password:</label><br />
       <input type="password" name="password" value={formData.password} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
-      <label className="text-xl" htmlFor="type">Enter the first name:</label><br />
-      <input type="text" name="type" value={formData.type} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <label className="text-xl" htmlFor="color">Color of vehicle:</label><br />
+      <input type="text" name="type" value={formData.vehicle.type} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+
+      <label className="text-xl" htmlFor="seat">Number of seats:</label><br />
+      <input type="text" name="firstName" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+
+      <label className="text-xl" htmlFor="type">Type of vehicle:</label><br />
+      <input type="text" name="firstName" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+
+      <label className="text-xl" htmlFor="plate">Plate number:</label><br />
+      <input type="text" name="firstName" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+
 
       <button className="py-2 mt-2 w-full bg-black rounded-md text-xl text-white" type="submit">
         Register
