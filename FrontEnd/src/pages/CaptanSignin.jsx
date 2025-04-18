@@ -73,20 +73,20 @@ const CaptanSignin = () => {
       <input type="password" name="password" value={formData.password} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
       <label className="text-xl" htmlFor="color">Color of vehicle:</label><br />
-      <input type="text" name="type" value={formData.vehicle.type} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="color" value={formData.vehicle.color} onChange={handleChange} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
       <label className="text-xl" htmlFor="seat">Number of seats:</label><br />
-      <input type="text" name="seat" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="seat" value={formData.vehicle.seat} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
       <label className="text-xl" htmlFor="type">Type of vehicle:</label><br />
-      <input type="text" name="type" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="type" list="type" value={formData.vehicle.type} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
       <datalist id="type">
         <option value="Car" />
         <option value="Bus" />
         <option value="Truck" />
       </datalist>
       <label className="text-xl" htmlFor="plate">Plate number:</label><br />
-      <input type="text" name="plate" value={formData.vehicle.firstName} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
+      <input type="text" name="plate" value={formData.vehicle.plate} onChange={handleChange} minLength={3} required className="w-full p-2 mb-4 border border-gray-300 rounded" />
 
 
       <button className="py-2 mt-2 w-full bg-black rounded-md text-xl text-white" type="submit">
