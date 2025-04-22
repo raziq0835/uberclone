@@ -22,22 +22,21 @@ const captanSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        require:true,
-        select:false
+        require:true, 
     },
     socketId:{
-        type:String,
-        require:true
-    },
+        type:String, 
+        require:true   
+    }, 
     status:{
         type:String,
         enum:['active','inactive'],
     },
     vehicle :{
         color:{
-            type:String,
-            require:true,
-        },
+            type:String, 
+            require:true,  
+        }, 
         seat : {
             type:Number,
             require:true,
@@ -45,7 +44,7 @@ const captanSchema = new mongoose.Schema({
         },
         type:{
             type:String,
-            require:true,
+            require:true, 
             enum:['car','bike','auto']
         },
         plate:{

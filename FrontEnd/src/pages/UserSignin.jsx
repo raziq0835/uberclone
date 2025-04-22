@@ -6,6 +6,8 @@ import { userDataContext } from "../context/UserContext";
 import { useContext } from "react";
 
 const UserSignin = () => {
+  const navigate = useNavigate();
+  const UserContext = useContext(userDataContext);
   const [userData, setUserData] = useState({
     fullName: {
       firstName: "",
@@ -31,30 +33,26 @@ const UserSignin = () => {
         [name]: value,
       }));
     }
-
-
   };
 
-  
-   
   const handelSubmit = async (e) => {
-    e.preventDefault();
-    console.log(userData);
-    const res = await axios.post(`${import.meta.env.VITE_BASEURL}/users/register`, userData);
-    console.log(res.user);
-    if (res.status === 200) {
-      alert("User Created Successfully");
-    } else {
-      alert("User Creation Failed");
+    e.preventDefault()
+    let res;
+    try {
+      res = await axios.post(
+        `${import.meta.env.VITE_BASEURL}/users/register`,
+        userData
+      );
+      console.log(res.data.user);
+      UserContext.setUserData(res.data.user)
+      console.log(UserContext.userData)
+    } catch (err) {
+      console.log(err);
     }
-    const navigate = useNavigate();
-  const user = useContext(userDataContext);
-    user.setUserData(res.user);
-    console.log(user.userData);
-    navigate("/home");
 
     
-
+    
+    navigate("/home");
   };
 
   return (
