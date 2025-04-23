@@ -26,9 +26,9 @@ exports.captanRegister = async function(req,res,next){
     vehicle.seat,
     vehicle.color, 
     vehicle.type,
-    vehicle.plate,    
+    vehicle.plate,     
     status, 
-    email,
+    email, 
     hashPassword
   );
 
