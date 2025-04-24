@@ -25,7 +25,7 @@ const UserLogin = () => {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value)
-    setUserData((pre) => ({
+    setUserData((pre) => ({   
       ...pre,
        email,
        password}))
