@@ -69,6 +69,7 @@ const UserSignin = () => {
         <br />
         <input
           type="text"
+          className="w-1/2"
           value={userData.fullName.firstName}
           onChange={(e) => handleChange(e)}
           id="firstName"
@@ -77,7 +78,7 @@ const UserSignin = () => {
         />
         <br />
         <label className="text-2xl mb-5" htmlFor="lastName">
-          Email:
+          last Name:
         </label>
         <br />
         <input
