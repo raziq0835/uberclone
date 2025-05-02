@@ -8,7 +8,8 @@ const Home = () => {
   console.log("Your at home ")
   console.log(userContext.userData)
   return (
-    <div>Home</div>
+    <div>Home
+    <p>Book a ride</p></div>
   )
 }
 
