@@ -130,7 +130,7 @@ const UserSignin = () => {
         </p>
         <p className="text-center mt-3">
           Forget Password?{" "}
-          <Link to="/ForgetPassword" className="text-blue-600">
+          <Link to="#" className="text-blue-600">
             Reset
           </Link>
         </p>
