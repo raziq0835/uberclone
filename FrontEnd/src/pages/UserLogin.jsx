@@ -40,6 +40,10 @@ const UserLogin = () => {
       `${import.meta.env.VITE_BASEURL}/users/login`,
       payload
     );
+    if(res.status === 401 ) {
+      alert("iNVALID CREDENTIALS")
+      return;
+    }
     console.log(res.data.user);
     userContext.setUserData(res.data.user);
     console.log(userContext.userData);
@@ -89,8 +93,7 @@ const UserLogin = () => {
           className="py-1 mt-2 w-full bg-black  rounded-md text-xl text-white"
           type="submit"
           onClick={async (e) => {
-            await handleSetUserData(e);
-            handelSubmit(e);
+            await handelSubmit(e);
           }}
         >
           Login
