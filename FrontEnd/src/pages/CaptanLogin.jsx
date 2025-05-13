@@ -1,11 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CaptanLogin = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [captandata,setCaptandata] = useState({});
+    const navigator = useNavigate();
   
   
   
@@ -20,13 +23,23 @@ const CaptanLogin = () => {
     }
   
   
-    const handelSubmit = (e) =>{
+    const handelSubmit =async  (e) =>{
       e.preventDefault();
-      setCaptandata({
-        email: email,
+      const playload = {
+        email: email, 
         password: password
-      })
-      console.log(captandata);
+      }
+
+      const res = await axios.post(`${import.meta.env.VITE_BASEURL}/captan/login`,playload)
+      if(res.status === 401) {
+        alert("Invalid credentials")
+        return;
+      }else if(res.status === 200) {
+        alert("Login successfully")
+        navigator("/captanhome")
+      }
+
+
       setEmail('');
       setPassword('');
       

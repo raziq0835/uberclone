@@ -50,7 +50,7 @@ const UserLogin = () => {
     navigate("/home");
     console.log("loged in successfully");
 
-    console.log(userdata);
+   
     setEmail("");
     setPassword("");
   };

@@ -45,7 +45,7 @@ const captanSchema = new mongoose.Schema({
         type:{
             type:String,
             require:true, 
-            enum:['car','bike','auto']
+            enum:['car','bike','auto','bus','truck','other']
         },
         plate:{
             type:Number,

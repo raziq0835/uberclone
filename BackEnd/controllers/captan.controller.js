@@ -14,7 +14,7 @@ exports.captanRegister = async function(req,res,next){
   var captan = await captanModel.findOne({
     email
   });
-
+   
   if (captan) {
     return res.status(401).json({ message: "Email already exists" });
   }
@@ -34,6 +34,7 @@ exports.captanRegister = async function(req,res,next){
 
   const token = captan.genAuthToken();
   res.status(201).json({ token, captan });
+  console.log(captan);
 }  
 
 exports.captanLogin  = async function(req,res,next){

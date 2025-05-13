@@ -31,7 +31,8 @@ userRouter.post(
   "/login",
   [
     body("email").isEmail().withMessage("Invalid Email"),
-    body("password").isLength().withMessage("Invalid password"),
+    body("password").isLength({min : 6})
+    .withMessage("Invalid password"),
   ],
 
   userController.userLogin

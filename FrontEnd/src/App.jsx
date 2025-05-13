@@ -8,6 +8,7 @@ import UserSignin from "./pages/UserSignin";
 // import { userDataContext } from './context/UserContext'
 import UserContext, { userDataContext } from "./context/UserContext";
 import Start from "./pages/Start";
+import UserProtected from "./pages/userprotected/UserProtected";
 
 const App = () => {
   const user = useContext(userDataContext);
@@ -21,7 +22,11 @@ const App = () => {
         <Route path="/userlogin" element={<UserLogin />} />
         <Route path="/captansignin" element={<CaptanSignin />} />
         <Route path="/usersignin" element={<UserSignin />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={
+          <UserProtected>
+            <Home />
+          </UserProtected>
+        } />
       </Routes>
     </div>
   );

@@ -1,3 +1,4 @@
+import axios  from 'axios';
 import React from 'react'
 
 const CaptanSignin = () => {
@@ -50,8 +51,33 @@ const CaptanSignin = () => {
 
   const handleSubmit =(e) => {
     e.preventDefault();
+
+    const res = axios.post(`${import.meta.env.VITE_BASEURL}/captan/register`, formData)
       console.log(formData)
+      console.log(res.data)
+      if(res.status === 401) {
+        alert("Invalid credentials")
+        return;
+      }else {
+        alert("Registered successfully")
+        setFormData({
+          fullName:{
+            firstName : '',
+            lastName : ''
+          },
+          email:'',
+          password: '',
+          vehicle:{
+            type:'',
+            color:'',
+            seat:'',
+            plate:''
+          }
+        })
+
+
   }
+}
 
   return (
     <div className='text-gray-500 bg-cover bg-center bg-[url(https://images.unsplash.com/photo-1687247361949-ac0ffc268b99?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen w-full flex flex-col'>
