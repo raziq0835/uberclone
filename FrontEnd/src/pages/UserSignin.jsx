@@ -46,6 +46,7 @@ const UserSignin = () => {
       console.log(res.data.user);
       UserContext.setUserData(res.data.user)
       console.log(UserContext.userData)
+      localStorage.setItem("token", res.data.token);
     } catch (err) {
       console.log(err);
     }

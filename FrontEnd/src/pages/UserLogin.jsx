@@ -47,6 +47,7 @@ const UserLogin = () => {
     console.log(res.data.user);
     userContext.setUserData(res.data.user);
     console.log(userContext.userData);
+    localStorage.setItem("token", res.data.token);
     navigate("/home");
     console.log("loged in successfully");
 
