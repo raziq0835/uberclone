@@ -7,7 +7,7 @@ const captanMiddleware = require('../middlewares/captan.middleware')
 const captanRouter = express.Router();
 
 captanRouter.post('/register',
-  [
+  [   
     body("email").isEmail().withMessage("Invalid email format "),
     body("fullName.firstName")
       .isLength({ min: 3 })
