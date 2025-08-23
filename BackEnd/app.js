@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser')
 const connectToDb = require("./db/db.js");
 const userRouter = require("./routers/user.router");
 const captanRouter = require('./routers/captan.router')
+const mapRouter = require('./routers/map.router')
+const mapServises = require('./../services/map.services');
+const {validationResult} = require('express-validator');
 
 connectToDb();
 const app = express();
@@ -30,5 +33,9 @@ app.use('/captan'
 //   console.log(typeof captanRouter),
 //   console.log(captanRouter)
   ,captanRouter)
+
+app.use('/map',mapRouter);
+
+app.use('/ride', rideRouter);
 
 module.exports = app;
