@@ -1,4 +1,5 @@
 const axios = require("axios");
+const captainModel = require('../models/captan.model')
 
 module.exports.getCoordinates = async (address) => {
   if (!address) {
@@ -103,3 +104,21 @@ module.exports.getSuggestion = async (address) => {
     return { error: "Failed to fetch suggestions" };
   }
 };
+
+
+  module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+    // radius in km
+
+
+    const captains = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
+            }
+        }
+    });
+
+  return captains;
+}
+

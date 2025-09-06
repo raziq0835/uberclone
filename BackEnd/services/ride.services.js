@@ -3,13 +3,16 @@ const mapService = require('./map.servises');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-async function getFare(pickup, destination) {
+async function getFare(pickup, drop) {
 
-    if (!pickup || !destination) {
+    if (!pickup || !drop) {
         throw new Error('Pickup and destination are required');
     }
 
-    const distanceTime = await mapService.getDistanceTime(pickup, destination);
+    const origin = await mapService.getCoordinates(pickup);
+    const destination = await mapService.getCoordinates(drop);
+
+    const distanceTime = await mapService.getDistanceTime(origin , destination);
 
     const baseFare = {
         auto: 30,
@@ -30,19 +33,20 @@ async function getFare(pickup, destination) {
     };
 
 
-
+    console.log("Ride details:", distanceTime);
     const fare = {
-        auto: Math.round(baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto)),
-        car: Math.round(baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),
-        moto: Math.round(baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto))
+        auto: Math.round(baseFare.auto + ((distanceTime.distance / 1000) * perKmRate.auto) + ((parseInt(distanceTime.duration) / 60) * perMinuteRate.auto)),
+        car: Math.round(baseFare.car + ((distanceTime.distance / 1000) * perKmRate.car) + ((parseInt(distanceTime.duration) / 60) * perMinuteRate.car)),
+        moto: Math.round(baseFare.moto + ((distanceTime.distance / 1000) * perKmRate.moto) + ((parseInt(distanceTime.duration) / 60) * perMinuteRate.moto))
     };
+    console.log("Calculated fare:", fare);
 
     return fare;
 
 
 }
-
 module.exports.getFare = getFare;
+
 
 
 function getOtp(num) {
@@ -53,6 +57,7 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
+module.exports.getOtp = getOtp;
 
 module.exports.createRide = async ({
     user, pickup, destination, vehicleType
@@ -92,7 +97,7 @@ module.exports.confirmRide = async ({
 
     const ride = await rideModel.findOne({
         _id: rideId
-    }).populate('user').populate('captain').select('+otp');
+    }).populate('user').populate('captan').select('+otp');
 
     if (!ride) {
         throw new Error('Ride not found');
@@ -109,7 +114,7 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
 
     const ride = await rideModel.findOne({
         _id: rideId
-    }).populate('user').populate('captain').select('+otp');
+    }).populate('user').populate('captan').select('+otp');
 
     if (!ride) {
         throw new Error('Ride not found');
@@ -140,7 +145,7 @@ module.exports.endRide = async ({ rideId, captain }) => {
     const ride = await rideModel.findOne({
         _id: rideId,
         captain: captain._id
-    }).populate('user').populate('captain').select('+otp');
+    }).populate('user').populate('captan').select('+otp');
 
     if (!ride) {
         throw new Error('Ride not found');

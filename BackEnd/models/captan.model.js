@@ -51,10 +51,26 @@ const captanSchema = new mongoose.Schema({
             type:Number,
             require:true,
         }
+        
 
-    }
+    },
+    location: {
+            ltd: {
+                type: Number,
+            },
+            lng: {
+                type: Number,
+            }
+        }
 
 })
+
+captanSchema.methods.genAuthToken = function(){
+    const token = jwt.sign({_id:this._id},process.env.ACCESS_SECRET_KEY,{expiresIn:'1H'})
+    return token ;
+}
+
+
 
 captanSchema.methods.genAuthToken = function(){
     const token = jwt.sign({_id:this._id},process.env.ACCESS_SECRET_KEY,{expiresIn:'1H'})
