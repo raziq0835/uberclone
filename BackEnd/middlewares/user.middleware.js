@@ -3,15 +3,15 @@ const jwt = require('jsonwebtoken')
 const unauthTokenModel = require('../models/unauthtoken.model')
 
 
-exports.isUserLoged = async (req,res,next) => {
+module.exports.isUserLoged = async (req,res,next) => {
     const token =  req.cookies.token || (req.header('Authorization') ? req.header('Authorization').split(' ')[1] : null);
     if(!token)
-        return res.status(400).json({messege:"Unauthorized"})
+        return res.status(400).json({messege:"Unauthorized Please Login"})
     const unauthToken = await unauthTokenModel.checkUnauthList(token)
     console.log(unauthToken)
     if(unauthToken)
-        return res.status(400).json({messege:"Unauthorized"})
-    
+        return res.status(400).json({messege:"Unauthorized Please Login"})
+
 
     try{
         const decoded = jwt.verify(token,process.env.ACCESS_SECRET_KEY)
@@ -22,6 +22,6 @@ exports.isUserLoged = async (req,res,next) => {
 
         return next()
     }catch(err){
-        return res.status(400).json({messege:"Unauthorized"})
+        return res.status(400).json({messege:"Unauthorized Please Login"})
     }
 }

@@ -1,49 +1,105 @@
-const axios = require('axios');
+const axios = require("axios");
 
+module.exports.getCoordinates = async (address) => {
+  if (!address) {
+    console.error("Address is required");
+    return null;
+  } else {
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Replace with your actual API key
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      address
+    )}&key=${apiKey}`;
 
-exports.getCoordinates = {
-  getMapData: async (req, res) => {
     try {
-      const response = await axios.get('https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/auto/500x300?access_token=YOUR_MAPBOX_ACCESS_TOKEN');
-      res.json(response.data);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to fetch map data' });
+      const response = await axios.get(url);
+      
+      if (response.data.status === "OK") {
+        const location = response.data.results[0].geometry.location;
+        console.log("Latitude:", location.lat, "Longitude:", location.lng);
+        return location;
+      } else {
+        console.error("Error from API:", response.data.status);
+        return null;
+      }
+    } catch (err) {
+      console.error("Request failed:", err.message);
     }
   }
 };
 
-exports.getDistanceTime = (req, res) => {
-    const { start, end } = req.query;
-    if (!start || !end) {
-        return res.status(400).json({ error: 'Start and end locations are required' });
-    }
-    // Call to external API or service to get distance and time
-    axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${start};${end}?access_token=YOUR_MAPBOX_ACCESS_TOKEN`)
-        .then(response => {
-            const { distance, duration } = response.data.routes[0];
-            res.json({ distance, duration });
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: 'Failed to fetch distance and time' });
-        });
+module.exports.getDistanceTime = async (origin , destination) => {
+  if (!origin.lat || !origin.lng || !destination.lat || !destination.lng) {
+
+    console.log("Both origin and destination coordinates are required");
+    console.log(origin , destination)
+    return null;
+  }
+
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Replace with your actual API key
+  const url = "https://routes.googleapis.com/directions/v2:computeRoutes";
+
+  try {
+    const response = await axios.post(
+      url,
+      {
+        origin: {
+          location: {
+            latLng: {
+              latitude: origin.lat,
+              longitude: origin.lng
+            },
+           },
+        },
+        destination: {
+          location: {
+            latLng: {
+              latitude: destination.lat,
+              longitude: destination.lng
+            },
+          },
+        },
+        travelMode: "DRIVE", // DRIVE | WALK | BICYCLE | TRANSIT
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": apiKey,
+          "X-Goog-FieldMask":
+            "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+        },
+      }
+    );
+
+    const route = response.data.routes[0];
+    console.log("Duration:", route.duration);
+    console.log("Distance (meters):", route.distanceMeters);
+    
+
+    return { duration: route.duration, distance: route.distanceMeters };
+  }
+  catch (error) {
+    console.error("Error occurred while fetching distance and time:", error);
+    return null;
+  }
 };
 
+module.exports.getSuggestion = async (address) => {
 
-exports.getSuggestion = (req, res) => {
-    const { address } = req.query;
-    if (!address) {
-        return res.status(400).json({ error: 'Address is required' });
-    }
-    // Call to external API or service to get suggestions
-    axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=YOUR_MAPBOX_ACCESS_TOKEN`)
-        .then(response => {
-            const suggestions = response.data.features.map(feature => feature.place_name);
-            res.json(suggestions);
-        })
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: 'Failed to fetch suggestions' });
-        });
+  if (!address) {
+    return { error: "Address is required" };
+  }
+  
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Replace with your actual API key
+  const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(address)}&key=${apiKey}`;
+
+  try {
+    const response = await axios.get(url);
+    const suggestions = response.data.predictions.map(
+      (prediction) => prediction.description
+    );
+    return suggestions;
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch suggestions" };
+  }
 };

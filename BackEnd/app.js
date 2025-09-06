@@ -6,8 +6,9 @@ const connectToDb = require("./db/db.js");
 const userRouter = require("./routers/user.router");
 const captanRouter = require('./routers/captan.router')
 const mapRouter = require('./routers/map.router')
-const mapServises = require('./../services/map.services');
+
 const {validationResult} = require('express-validator');
+const rideRouter = require('./routers/ride.route')
 
 connectToDb();
 const app = express();
